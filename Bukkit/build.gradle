@@ -42,7 +42,7 @@ dependencies {
     }
     implementation("net.alpenblock:BungeePerms:4.0-dev-106")
     implementation("net.kyori:adventure-platform-bukkit:4.0.0-SNAPSHOT")
-    implementation('net.kyori:adventure-text-minimessage:3.0.0-SNAPSHOT')
+    implementation('net.kyori:adventure-text-minimessage:4.0.0-SNAPSHOT')
     compile("se.hyperver.hyperverse:Core:0.6.0-SNAPSHOT"){ transitive = false }
     compile('com.sk89q:squirrelid:1.0.0-SNAPSHOT'){ transitive = false }
     compile('be.maximvdw:MVdWPlaceholderAPI:3.1.1-SNAPSHOT'){ transitive = false }
@@ -103,8 +103,10 @@ shadowJar {
     dependencies {
         include(dependency(":PlotSquared-Core"))
         include(dependency("io.papermc:paperlib:1.0.4"))
+        include(dependency("net.kyori:examination-api:1.0.0"))
+        include(dependency("net.kyori:examination-string:1.0.0"))
         include(dependency("net.kyori:adventure-platform-bukkit:${adventureVersion}"))
-        include(dependency("net.kyori:adventure-text-minimessage:3.0.0-SNAPSHOT"))
+        include(dependency("net.kyori:adventure-text-minimessage:${adventureVersion}"))
         include(dependency("net.kyori:adventure-text-serializer-bungeecord:${adventureVersion}"))
         include(dependency("net.kyori:adventure-text-serializer-legacy:${adventureVersion}"))
         include(dependency("net.kyori:adventure-text-serializer-gson:${adventureVersion}"))
@@ -126,6 +128,8 @@ shadowJar {
         include(dependency('javax.inject:javax.inject:1'))
         include(dependency('aopalliance:aopalliance:1.0'))
         include(dependency('com.intellectualsites:Pipeline:1.4.0-SNAPSHOT'))
+        include(dependency('com.intellectualsites.arkitektonika:Arkitektonika-Client:2.0-SNAPSHOT'))
+        include(dependency('com.intellectualsites.http:HTTP4J:1.1-SNAPSHOT'))
     }
 
     relocate('net.kyori.adventure', 'com.plotsquared.core.configuration.adventure')
@@ -137,6 +141,8 @@ shadowJar {
     relocate('org.slf4j', 'com.plotsquared.logging.slf4j')
     relocate('com.google.inject', 'com.plotsquared.google')
     relocate('javax.inject', 'com.plotsquared.core.inject.javax')
+    relocate('com.intellectualsite.arkitektonika', 'com.plotsquared.core.arkitektonika')
+    relocate('com.intellectualsite.http', 'com.plotsquared.core.http')
 
     archiveFileName = "${project.name}-${parent.version}.jar"
     destinationDirectory = file "../target"
