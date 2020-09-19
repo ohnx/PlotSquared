@@ -100,17 +100,7 @@ public class Download extends SubCommand {
                 return false;
             }
             plot.addRunning();
-            this.plotUploader.upload(plot)
-                    .whenComplete((result, throwable) -> {
-                        if (throwable != null) {
-                            player.sendMessage(TranslatableCaption.of("web.generating_link_failed"));
-                        } else {
-                            player.sendMessage(
-                                    TranslatableCaption.of("web.generation_link_success"),
-                                    Template.of("download", result.getDownloadUrl()),
-                                    Template.of("delete", result.getDeletionUrl()));
-                        }
-                    });
+            upload(player, plot);
         } else if (args.length == 1 && StringMan
             .isEqualIgnoreCaseToAny(args[0], "mcr", "world", "mca")) {
             if (!Permissions.hasPermission(player, Permission.PERMISSION_DOWNLOAD_WORLD)) {
@@ -139,5 +129,20 @@ public class Download extends SubCommand {
         }
         player.sendMessage(TranslatableCaption.of("web.generating_link"));
         return true;
+    }
+
+    private void upload(PlotPlayer<?> player, Plot plot) {
+        // TODO legacy support
+        this.plotUploader.upload(plot)
+                .whenComplete((result, throwable) -> {
+                    if (throwable != null || !result.isSuccess()) {
+                        player.sendMessage(TranslatableCaption.of("web.generating_link_failed"));
+                    } else {
+                        player.sendMessage(
+                                TranslatableCaption.of("web.generation_link_success"),
+                                Template.of("download", result.getDownloadUrl()),
+                                Template.of("delete", result.getDeletionUrl()));
+                    }
+                });
     }
 }
