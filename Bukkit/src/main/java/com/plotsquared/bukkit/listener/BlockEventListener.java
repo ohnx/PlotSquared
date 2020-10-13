@@ -363,7 +363,8 @@ public class BlockEventListener implements Listener {
             }
             if (!plot.hasOwner()) {
                 if (!Permissions
-                    .hasPermission(plotPlayer, Captions.PERMISSION_ADMIN_DESTROY_UNOWNED, true)) {
+                    .hasPermission(plotPlayer, Captions.PERMISSION_ADMIN_DESTROY_UNOWNED, true) ||
+                    !plotPlayer.getAttribute("admin")) {
                     event.setCancelled(true);
                 }
                 return;
@@ -378,14 +379,16 @@ public class BlockEventListener implements Listener {
                     }
                 }
                 if (Permissions
-                    .hasPermission(plotPlayer, Captions.PERMISSION_ADMIN_DESTROY_OTHER)) {
+                    .hasPermission(plotPlayer, Captions.PERMISSION_ADMIN_DESTROY_OTHER) &&
+                    plotPlayer.getAttribute("admin")) {
                     return;
                 }
                 MainUtil.sendMessage(plotPlayer, Captions.NO_PERMISSION_EVENT,
                     Captions.PERMISSION_ADMIN_DESTROY_OTHER);
                 event.setCancelled(true);
             } else if (Settings.Done.RESTRICT_BUILDING && DoneFlag.isDone(plot)) {
-                if (!Permissions.hasPermission(plotPlayer, Captions.PERMISSION_ADMIN_BUILD_OTHER)) {
+                if (!Permissions.hasPermission(plotPlayer, Captions.PERMISSION_ADMIN_BUILD_OTHER) ||
+                    !plotPlayer.getAttribute("admin")) {
                     MainUtil.sendMessage(plotPlayer, Captions.NO_PERMISSION_EVENT,
                         Captions.PERMISSION_ADMIN_BUILD_OTHER);
                     event.setCancelled(true);
@@ -395,7 +398,8 @@ public class BlockEventListener implements Listener {
             return;
         }
         BukkitPlayer pp = BukkitUtil.getPlayer(player);
-        if (Permissions.hasPermission(pp, Captions.PERMISSION_ADMIN_DESTROY_ROAD)) {
+        if (Permissions.hasPermission(pp, Captions.PERMISSION_ADMIN_DESTROY_ROAD) &&
+            pp.getAttribute("admin")) {
             return;
         }
         if (PlotSquared.get().worldedit != null && pp.getAttribute("worldedit")) {
@@ -562,7 +566,8 @@ public class BlockEventListener implements Listener {
             if (!plot.hasOwner()) {
                 BukkitPlayer plotPlayer = BukkitUtil.getPlayer(player);
                 if (Permissions
-                    .hasPermission(plotPlayer, Captions.PERMISSION_ADMIN_DESTROY_UNOWNED)) {
+                    .hasPermission(plotPlayer, Captions.PERMISSION_ADMIN_DESTROY_UNOWNED) &&
+                    plotPlayer.getAttribute("admin")) {
                     return;
                 }
                 event.setCancelled(true);
@@ -574,8 +579,9 @@ public class BlockEventListener implements Listener {
                 Block block = event.getBlock();
                 if (destroy
                     .contains(BlockTypeWrapper.get(BukkitAdapter.asBlockType(block.getType())))
-                    || Permissions
-                    .hasPermission(plotPlayer, Captions.PERMISSION_ADMIN_DESTROY_OTHER)) {
+                    || (Permissions
+                    .hasPermission(plotPlayer, Captions.PERMISSION_ADMIN_DESTROY_OTHER) &&
+                    plotPlayer.getAttribute("admin"))) {
                     return;
                 }
                 plot.debug(player.getName() + " could not break " + block.getType()
@@ -586,7 +592,8 @@ public class BlockEventListener implements Listener {
             return;
         }
         BukkitPlayer plotPlayer = BukkitUtil.getPlayer(player);
-        if (Permissions.hasPermission(plotPlayer, Captions.PERMISSION_ADMIN_DESTROY_ROAD)) {
+        if (Permissions.hasPermission(plotPlayer, Captions.PERMISSION_ADMIN_DESTROY_ROAD) &&
+            plotPlayer.getAttribute("admin")) {
             return;
         }
         event.setCancelled(true);
@@ -1012,19 +1019,22 @@ public class BlockEventListener implements Listener {
         if (player != null) {
             BukkitPlayer pp = BukkitUtil.getPlayer(player);
             if (plot == null) {
-                if (!Permissions.hasPermission(pp, Captions.PERMISSION_ADMIN_BUILD_ROAD)) {
+                if (!Permissions.hasPermission(pp, Captions.PERMISSION_ADMIN_BUILD_ROAD) ||
+                    !pp.getAttribute("admin")) {
                     MainUtil.sendMessage(pp, Captions.NO_PERMISSION_EVENT,
                         Captions.PERMISSION_ADMIN_BUILD_ROAD);
                     event.setCancelled(true);
                 }
             } else if (!plot.hasOwner()) {
-                if (!Permissions.hasPermission(pp, Captions.PERMISSION_ADMIN_BUILD_UNOWNED)) {
+                if (!Permissions.hasPermission(pp, Captions.PERMISSION_ADMIN_BUILD_UNOWNED) ||
+                    !pp.getAttribute("admin")) {
                     MainUtil.sendMessage(pp, Captions.NO_PERMISSION_EVENT,
                         Captions.PERMISSION_ADMIN_BUILD_UNOWNED);
                     event.setCancelled(true);
                 }
             } else if (!plot.isAdded(pp.getUUID())) {
-                if (!Permissions.hasPermission(pp, Captions.PERMISSION_ADMIN_BUILD_OTHER)) {
+                if (!Permissions.hasPermission(pp, Captions.PERMISSION_ADMIN_BUILD_OTHER) ||
+                    !pp.getAttribute("admin")) {
                     MainUtil.sendMessage(pp, Captions.NO_PERMISSION_EVENT,
                         Captions.PERMISSION_ADMIN_BUILD_OTHER);
                     event.setCancelled(true);

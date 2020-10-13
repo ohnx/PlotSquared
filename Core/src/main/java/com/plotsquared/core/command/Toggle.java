@@ -34,13 +34,26 @@ import com.plotsquared.core.util.task.RunnableVal3;
 @CommandDeclaration(command = "toggle",
     aliases = {"attribute"},
     permission = "plots.use",
-    usage = "/plot toggle <chat|chatspy|clear-confirmation|time|titles|worldedit>",
+    usage = "/plot toggle <admin|chat|chatspy|clear-confirmation|time|titles|worldedit>",
     description = "Toggle per user settings",
     requiredType = RequiredType.NONE,
     category = CommandCategory.SETTINGS)
 public class Toggle extends Command {
     public Toggle() {
         super(MainCommand.getInstance(), true);
+    }
+
+    @CommandDeclaration(command = "admin",
+        permission = "plots.admin.command.toggle",
+        description = "Toggle admin bypass build ability")
+    public void admin(Command command, PlotPlayer<?> player, String[] args,
+        RunnableVal3<Command, Runnable, Runnable> confirm,
+        RunnableVal2<Command, CommandResult> whenDone) {
+        if (toggle(player, "admin")) {
+            MainUtil.sendMessage(player, Captions.TOGGLE_DISABLED, command.toString());
+        } else {
+            MainUtil.sendMessage(player, Captions.TOGGLE_ENABLED, command.toString());
+        }
     }
 
     @CommandDeclaration(command = "chatspy",

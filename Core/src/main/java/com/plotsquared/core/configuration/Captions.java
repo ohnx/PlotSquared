@@ -97,6 +97,7 @@ public enum Captions implements Caption {
     PERMISSION_ADMIN_UPDATE("plots.admin.command.update", "static.permissions"),
     PERMISSION_ADMIN_COMMAND_RATE("plots.admin.command.rate", "static.permissions"),
     PERMISSION_ADMIN_COMMAND_TRUST("plots.admin.command.trust", "static.permissions"),
+    PERMISSION_ADMIN_TOGGLE("plots.admin.command.toggle", "static.permissions"),
     PERMISSION_TRUST_EVERYONE("plots.trust.everyone", "static.permissions"),
     PERMISSION_AREA_CREATE("plots.area.create", "static.permissions"),
     PERMISSION_AREA_INFO("plots.area.info","static.permissions"),
